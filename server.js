@@ -1,37 +1,28 @@
-require("dotenv").config();
 const express = require("express");
 
-const db = require("./models");
+const PORT = process.env.PORT || 4000;
+
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
-// Routes
-const API = require("./routes/apiRoutes");
-API.api(app);
+// Parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-const syncOptions = { force: false };
+// Set Handlebars.
+const exphbs = require("express-handlebars");
 
-// If running a test, set syncOptions.force to true
-// clearing the `testdb`
-if (process.env.NODE_ENV === "test") {
-  syncOptions.force = true;
-}
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-// Starting the server, syncing our models ------------------------------------/
-db.sequelize.sync(syncOptions).then(function() {
-  app.listen(PORT, function() {
-    console.log(
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
-      PORT,
-      PORT
-    );
-  });
+// Import routes and give the server access to them.
+const routes = require("./controllers/burgers_controller");
+
+app.use(routes);
+
+app.listen(PORT, function () {
+    console.log("App now listening at localhost:" + PORT);
 });
-
-module.exports = app;
