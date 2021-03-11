@@ -5,6 +5,8 @@ This is a Node, Express, Handlebars, and MySQL burger app that lets users input 
 
 This application will demonstrate a full stack application with a front end implemented with HTML/CSS and elements from the Materialize framework and the backend implemented with Node.js and Express. HTML templating is done with the help of Handlebars.
 
+## Launched Page 
+![Good BurgerCapture](https://user-images.githubusercontent.com/74007392/110793170-50347680-8242-11eb-8a53-21c3ad61627e.PNG)
 
 ## Installation 
 To run the application locally, first clone this repository.
